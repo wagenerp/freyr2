@@ -1,0 +1,25 @@
+
+
+k-vslider::part(lhs) {
+  height:calc(342px - var(--pixval));
+  position:relative;
+  left:0;
+  right:0;
+  top:0;
+}
+k-vslider {
+  text-align: left !important;
+  line-height: 12px !important;
+}
+k-vslider:focus {
+  outline: none;
+}
+k-vslider::part(input) {
+  position:absolute;
+}
+
+
+
+.col { display: flex; flex-direction: column;}
+.row { display: flex; flex-direction: row;}
+

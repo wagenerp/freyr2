@@ -1,0 +1,23 @@
+
+add_custom_command(OUTPUT ${CMAKE_SOURCE_DIR}/../../webif/armcomp/htdocs/webif.html.gz
+  COMMAND python3
+    ${CMAKE_SOURCE_DIR}/../../webif/armcomp/generate.py
+
+)
+
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/generated/webif-index.c
+  COMMAND xxd
+    -include
+    index.html.gz
+    ${CMAKE_BINARY_DIR}/generated/webif-index.c
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../../webif/armcomp/htdocs/
+  DEPENDS ${CMAKE_SOURCE_DIR}/../../webif/armcomp/htdocs/webif.html.gz
+)
+
+
+add_custom_target(deviceSpecificFiles
+  DEPENDS
+    ${CMAKE_BINARY_DIR}/generated/webif-index.c
+  )
+
+add_dependencies(generatedFiles deviceSpecificFiles)

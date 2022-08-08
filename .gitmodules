@@ -1,0 +1,6 @@
+[submodule "alpha4"]
+	path = alpha4
+	url = https://github.com/wagenerp/alpha4.git
+[submodule "unicorn"]
+	path = unicorn
+	url = https://github.com/wagenerp/unicorn.git

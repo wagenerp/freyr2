@@ -1,0 +1,2 @@
+options webif/armcomp/configs webif/armcomp/
+options firmware/esp32-freyr/devices firmware/esp32-freyr/main

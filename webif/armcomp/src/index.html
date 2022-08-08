@@ -1,0 +1,40 @@
+<!-- Copyright 2022 Peter Wagener <mail@peterwagener.net>
+
+This file is part of Freyr2.
+
+Freyr2 is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+Freyr2 is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Freyr2. If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<html>
+  <head>
+    <title>freyr</title>
+    <style>
+      {file:00-common.css} 
+      {file:20-style.css}
+    </style>
+    <script type="text/javascript">
+      {file-group:.*[.]js}
+    </script>
+  </head>
+  <body class="col" onload="init()">
+    <div id="schematic">{file:schematic_compressed.svg}</div>
+    <div class=row id="controls">
+      <div id="breadcrumb-container"><p id="breadcrumbs"></p><p id="battery">asdf</p></div>
+      <ul id="buttons"></ul>
+      <div class="col rot" id="values">
+        <k-vslider id=slider min=0 max=1 value=0.3></k-vslider>
+      </div>
+    </div>
+
+  </body>
+</html>

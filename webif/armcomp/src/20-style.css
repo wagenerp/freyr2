@@ -1,0 +1,129 @@
+/* Copyright 2022 Peter Wagener <mail@peterwagener.net>
+
+This file is part of Freyr2.
+
+Freyr2 is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+Freyr2 is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Freyr2. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+:root {
+  --hue: 120;
+  --lightness : 50%;
+  --clMain: hsl(var(--hue),100%,var(--lightness));
+  --clGlow: hsl(var(--hue),100%,calc(0.5 * var(--lightness)));
+  --clBack: hsl(var(--hue),100%,8%);
+  --clDim: hsl(var(--hue),100%,17%);
+  
+}
+body {
+  background-color: var(--clBack);
+  color: var(--clMain);
+  height:100%;
+  padding:0;
+  margin:0;
+  user-select: none;
+}
+
+k-vslider::part(lhs) {
+  background-color: var(--clBack);
+}
+k-vslider {
+  background-color: var(--clDim);
+  border:3px solid var(--clMain);
+}
+
+
+
+#controls {
+  height:348px;
+  gap:0;
+}
+
+
+#slider {
+  display: none;
+  width:80px;
+  height:100%;
+}
+#controls> * {
+  margin-right:10px !important;
+}
+#controls > *:last-child {
+  margin-right:0;
+}
+#breadcrumb-container>p {
+    transform:rotate(-90deg);
+    margin:0;
+    padding:0;
+    font: 12pt DejaVu Sans;
+    text-shadow: 0 0 6px var(--clMain);
+}
+
+#breadcrumb-container {
+    display:flex;
+    width:16px;
+    flex-direction:column-reverse;
+    justify-content: space-between;
+}
+#buttons {
+  list-style-type: none;
+  padding: 0;
+  display:flex;
+  flex-flow: row-reverse wrap;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  width:226px;
+  /* gap: 10px; */
+  margin: 0;
+  
+transform:rotate(180deg)
+}
+
+#buttons::-webkit-scrollbar {
+  display:none;
+}
+
+#buttons>li {
+  display:flex;
+  width:102px;
+  height:102px;
+  border: 3px solid  var(--clMain);
+  margin: 0 ;
+
+  justify-content: center;
+  flex-direction: column;
+
+  word-break: break-all;
+
+  transform:rotate(90deg);
+  box-shadow: 0 0 10px  var(--clGlow), inset 0 0 10px  var(--clGlow);
+}
+#buttons>li:nth-child(even) {
+  margin-right:10px;
+  margin-bottom:10px;
+}
+#buttons>li:nth-child(odd) {
+  margin-bottom:10px;
+}
+#buttons>li>p {
+  text-align: center;
+  width:100%;
+    font:22pt DejaVu Sans;
+     text-shadow: 0 0 6px var(--clMain);
+    
+}
+
+div {
+  border:none;
+  padding:0;
+  margin:0;
+}

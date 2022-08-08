@@ -1,0 +1,131 @@
+/* Copyright 2022 Peter Wagener <mail@peterwagener.net>
+
+This file is part of Freyr2.
+
+Freyr2 is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+Freyr2 is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+Freyr2. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+
+This is an example configuration for a standalone LED device, animating four
+strands of LEDs arranged as a wearable suit.
+
+This was built during development so not all features are utilized yet. In
+particular, brightness control was implemented rather quickly and crudely to be
+replaced by the mod_filter_brightness module.
+LED coordinates are also not to measurements.
+
+*/
+
+#include "core/animation_api.h"
+#include "core/egress_api.h"
+#include "core/frame_api.h"
+#include "core/module_api.h"
+#include "modules/coordinates_api.h"
+#include "modules/grouping_api.h"
+#include <string>
+
+extern void webif_setup(const std::string &ssid, const std::string &psk);
+
+extern "C" {
+
+extern color_c_t egress_esp32_rmt_brightness;
+
+void device_init_freyr() {
+	egress_esp32_rmt_brightness = 0.1;
+
+	// You may want to change the SSID/PSK - or live dangerously.
+	webif_setup("freyr2device", "secret");
+
+	module_instantiate("coordinates", nullptr, "");
+
+	egress_init(
+		"esp32_rmt",
+		"main",
+		362,
+		"18 74 "
+		"22 94 "
+		"21 94 "
+		"26 100");
+	{
+		auto coords = coordinates_raw_preanim();
+
+		auto c = coords;
+		for (unsigned i = 0; i < 74; i++) {
+			float p    = i * 0.0166 + 0.1;
+			(*c++).pos = {p, 0, 0};
+		}
+		for (unsigned i = 0; i < 95; i++) {
+			float p    = i * 0.0166 + 0.1;
+			(*c++).pos = {0, p, 0};
+		}
+		for (unsigned i = 0; i < 94; i++) {
+			float p    = i * 0.0166 + 0.1;
+			(*c++).pos = {0, -p, 0};
+		}
+		for (unsigned i = 0; i < 100; i++) {
+			float p    = i * 0.0166 + 0.1;
+			(*c++).pos = {-p, 0, 0};
+		}
+	}
+
+	group_set("leftLeg", 0, 8);
+	group_set("leftTorso", 8, 8);
+	group_set("leftArm", 16, 8);
+
+	group_set("rightLeg", 24, 8);
+	group_set("rightTorso", 32, 8);
+	group_set("rightArm", 40, 8);
+
+	group_set("leftShoulder", 48, 8);
+	group_set("rightShoulder", 56, 8);
+
+	group_set("leftInnerLeg", 64, 8);
+	group_set("rightInnerLeg", 72, 8);
+
+#define GROUP(id, delta)     \
+	{                          \
+		group_set(id, i, delta); \
+		i += delta;              \
+	}
+	led_i_t i = 0;
+	{ // 74
+		GROUP("rightFootInner", 17);
+		GROUP("rightInnerThigh", 14);
+		GROUP("crotch", 12);
+		GROUP("leftInnerThigh", 14);
+		GROUP("leftFootInner", 17);
+	}
+	{ // 94
+		GROUP("leftForearmInner", 13);
+		GROUP("leftArmpit", 15);
+		GROUP("leftTorso", 24);
+		GROUP("leftLegOuter", 42);
+	}
+	{ // 94
+		GROUP("rightForearmInner", 13);
+		GROUP("rightArmpit", 15);
+		GROUP("rightTorso", 24);
+		GROUP("rightLegOuter", 42);
+	}
+	{ // 100
+		GROUP("rightForearmOuter", 14);
+		GROUP("rightArmOuter", 15);
+		GROUP("rightShoulder", 21);
+		GROUP("leftShoulder", 21);
+		GROUP("leftArmOuter", 15);
+		GROUP("leftForearmOuter", 14);
+	}
+	command_run("display rainbow on all", "");
+}
+}

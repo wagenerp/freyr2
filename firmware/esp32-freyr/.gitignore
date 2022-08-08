@@ -1,0 +1,5 @@
+/build*
+/devices/*
+!/devices/device.cpp.µ.test
+/components/unicorn
+/components/alpha3
